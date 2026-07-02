@@ -38,6 +38,15 @@ WORKFLOW_SVG = ROOT / "assets" / "workflow.svg"
 st.set_page_config(page_title="Receipt Intelligence Workflow", page_icon=":receipt:", layout="wide")
 
 
+def format_amount(value) -> str:
+    """Format a number for display: thousands separators, no trailing .0,
+    so a large no-cents total (e.g. 230000 IDR) doesn't overflow a metric box."""
+    if value is None:
+        return "-"
+    value = float(value)
+    return f"{value:,.0f}" if value.is_integer() else f"{value:,.2f}"
+
+
 def workflow_diagram(active: int = 0):
     """Render the five-stage flow; `active` highlights up to stage N."""
     stages = ["Image Input", "Vision-Language Model", "Structured Output",
@@ -80,17 +89,16 @@ def show_result(result):
 
     with left:
         st.subheader("Structured Output")
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Total", f"{e.total} {e.currency or ''}" if e.total is not None else "-")
+        c1, c2, c3 = st.columns([2, 1, 1])
+        total_label = f"{format_amount(e.total)} {e.currency or ''}".strip() if e.total is not None else "-"
+        c1.metric("Total", total_label)
         c2.metric("Items", len(e.line_items))
         c3.metric("Confidence", f"{e.confidence:.0%}")
         st.write(f"**Image type:** {e.image_type}  |  **Merchant:** {e.merchant_name or '-'}")
         st.write(f"**Finding:** {e.main_finding}")
         if e.line_items:
-            def _cell(v):  # uniform strings; blank-ish "-" for missing values
-                if v is None:
-                    return "-"
-                return f"{int(v)}" if float(v).is_integer() else f"{v}"
+            def _cell(v):  # blank-ish "-" for missing values, else formatted
+                return format_amount(v) if v is not None else "-"
             st.dataframe(
                 [{"item": it.description, "qty": _cell(it.quantity), "amount": _cell(it.amount)}
                  for it in e.line_items],
