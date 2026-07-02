@@ -21,8 +21,51 @@ _MAX_ATTEMPTS = 6
 _MAX_BACKOFF = 30
 
 
-def _mock_receipt() -> ReceiptExtraction:
-    """Canned result for a normal receipt image."""
+def _mock_green_market() -> ReceiptExtraction:
+    """Canned result matching the real Gemini reading of samples/receipt_green_market.png
+    (same numbers as examples/sample_output.json), so the mock demo is not misleading."""
+    return ReceiptExtraction(
+        image_type="receipt",
+        is_receipt=True,
+        merchant_name="GREEN MARKET",
+        merchant_address="Prince Sultan Rd, Al Khobar",
+        transaction_date="2026-06-29",
+        transaction_time="19:24",
+        currency="SAR",
+        line_items=[
+            LineItem(description="Fresh Milk 2L", quantity=2, amount=15.0),
+            LineItem(description="Whole Wheat Bread", amount=6.5),
+            LineItem(description="Free-Range Eggs 30", amount=23.0),
+            LineItem(description="Bananas 1.2kg", amount=8.4),
+            LineItem(description="Tomatoes 1kg", amount=5.75),
+            LineItem(description="Olive Oil 1L", amount=34.9),
+            LineItem(description="Chicken Breast 1kg", amount=28.5),
+        ],
+        subtotal=122.05,
+        tax=18.31,
+        total=140.36,
+        payment_method="Card",
+        suggested_category="groceries",
+        main_finding="Grocery receipt from Green Market, total 140.36 SAR.",
+        confidence=0.99,
+        uncertainty_notes=None,
+    )
+
+
+def _mock_non_receipt() -> ReceiptExtraction:
+    """Canned result for an image that is not a receipt (the reject branch)."""
+    return ReceiptExtraction(
+        image_type="drawing",
+        is_receipt=False,
+        main_finding="The image is a simple drawing of a house, not a receipt.",
+        confidence=0.98,
+        uncertainty_notes=None,
+    )
+
+
+def _mock_generic() -> ReceiptExtraction:
+    """Canned result for any other sample (e.g. the CORD receipts) that has no
+    specific fixture of its own."""
     return ReceiptExtraction(
         image_type="receipt",
         is_receipt=True,
@@ -47,23 +90,14 @@ def _mock_receipt() -> ReceiptExtraction:
     )
 
 
-def _mock_non_receipt() -> ReceiptExtraction:
-    """Canned result for an image that is not a receipt (the reject branch)."""
-    return ReceiptExtraction(
-        image_type="drawing",
-        is_receipt=False,
-        main_finding="The image is a simple drawing of a house, not a receipt.",
-        confidence=0.98,
-        uncertainty_notes=None,
-    )
-
-
 def _mock_extraction(image_path: str = "") -> ReceiptExtraction:
     """A fixed example used by --mock, chosen by filename so different demo
     images give different (but still fake, offline) results."""
     if "not_a_receipt" in image_path:
         return _mock_non_receipt()
-    return _mock_receipt()
+    if "green_market" in image_path:
+        return _mock_green_market()
+    return _mock_generic()
 
 
 def analyze_image(image_path: str, mock: bool = False) -> ReceiptExtraction:

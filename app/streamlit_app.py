@@ -254,7 +254,7 @@ st.title("Receipt Intelligence Workflow")
 st.write("Image → Vision-Language Model → Structured Output → Decision → Result")
 
 if WORKFLOW_SVG.exists():
-    with st.expander("Full workflow diagram", expanded=False):
+    with st.expander("Full workflow diagram", expanded=True):
         svg_b64 = base64.b64encode(WORKFLOW_SVG.read_bytes()).decode("ascii")
         st.markdown(
             f'<img src="data:image/svg+xml;base64,{svg_b64}" style="width:100%;height:auto;" />',
