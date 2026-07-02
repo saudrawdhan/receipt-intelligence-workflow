@@ -1,0 +1,107 @@
+[
+  {
+    "total": 60000.0,
+    "subtotal": 60000.0,
+    "tax": 5455.0,
+    "item_count": 1,
+    "file": "receipt_00.png"
+  },
+  {
+    "total": 91000.0,
+    "subtotal": null,
+    "tax": null,
+    "item_count": 3,
+    "file": "receipt_01.png"
+  },
+  {
+    "total": 28000.0,
+    "subtotal": 28000.0,
+    "tax": null,
+    "item_count": 1,
+    "file": "receipt_02.png"
+  },
+  {
+    "total": 11000.0,
+    "subtotal": 11000.0,
+    "tax": null,
+    "item_count": 1,
+    "file": "receipt_03.png"
+  },
+  {
+    "total": 174600.0,
+    "subtotal": 194000.0,
+    "tax": null,
+    "item_count": 3,
+    "file": "receipt_04.png"
+  },
+  {
+    "total": 31000.0,
+    "subtotal": 28182.0,
+    "tax": 2818.0,
+    "item_count": 1,
+    "file": "receipt_05.png"
+  },
+  {
+    "total": 46000.0,
+    "subtotal": null,
+    "tax": null,
+    "item_count": 3,
+    "file": "receipt_06.png"
+  },
+  {
+    "total": 111000.0,
+    "subtotal": 100909.0,
+    "tax": 10091.0,
+    "item_count": 1,
+    "file": "receipt_07.png"
+  },
+  {
+    "total": 50000.0,
+    "subtotal": 45455.0,
+    "tax": 4545.0,
+    "item_count": 1,
+    "file": "receipt_08.png"
+  },
+  {
+    "total": null,
+    "subtotal": 36000.0,
+    "tax": null,
+    "item_count": 1,
+    "file": "receipt_09.png"
+  },
+  {
+    "total": 17000.0,
+    "subtotal": 17000.0,
+    "tax": null,
+    "item_count": 1,
+    "file": "receipt_10.png"
+  },
+  {
+    "total": 230000.0,
+    "subtotal": null,
+    "tax": null,
+    "item_count": 1,
+    "file": "receipt_11.png"
+  },
+  {
+    "total": 120000.0,
+    "subtotal": null,
+    "tax": null,
+    "item_count": 2,
+    "file": "receipt_12.png"
+  },
+  {
+    "total": 51300.0,
+    "subtotal": 4663646636.0,
+    "tax": 4664.0,
+    "item_count": 2,
+    "file": "receipt_13.png"
+  },
+  {
+    "total": 281435.0,
+    "subtotal": 238000.0,
+    "tax": 25585.0,
+    "item_count": 6,
+    "file": "receipt_14.png"
+  }
+]
