@@ -1,0 +1,75 @@
+{
+  "image_path": "examples/sample_receipt.png",
+  "model": "gemini-2.5-flash",
+  "extraction": {
+    "image_type": "receipt",
+    "is_receipt": true,
+    "merchant_name": "GREEN MARKET",
+    "merchant_address": "Prince Sultan Rd, Al Khobar",
+    "transaction_date": "2026-06-29",
+    "transaction_time": "19:24",
+    "currency": "SAR",
+    "line_items": [
+      {
+        "description": "Fresh Milk 2L",
+        "quantity": 2.0,
+        "unit_price": null,
+        "amount": 15.0
+      },
+      {
+        "description": "Whole Wheat Bread",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 6.5
+      },
+      {
+        "description": "Free-Range Eggs 30",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 23.0
+      },
+      {
+        "description": "Bananas 1.2kg",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 8.4
+      },
+      {
+        "description": "Tomatoes 1kg",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 5.75
+      },
+      {
+        "description": "Olive Oil 1L",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 34.9
+      },
+      {
+        "description": "Chicken Breast 1kg",
+        "quantity": null,
+        "unit_price": null,
+        "amount": 28.5
+      }
+    ],
+    "subtotal": 122.05,
+    "tax": 18.31,
+    "total": 140.36,
+    "payment_method": "Card",
+    "suggested_category": "groceries",
+    "main_finding": "Grocery receipt from Green Market, total 140.36 SAR.",
+    "confidence": 0.99,
+    "uncertainty_notes": null
+  },
+  "decision": {
+    "status": "AUTO_APPROVE",
+    "math_check_passed": true,
+    "computed_total": 140.36,
+    "expense_category": "groceries",
+    "reasons": [
+      "All checks passed (total verified by subtotal + tax)."
+    ],
+    "recommended_action": "Auto-approve and file under 'groceries'."
+  }
+}
