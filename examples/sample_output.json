@@ -18,37 +18,37 @@
       },
       {
         "description": "Whole Wheat Bread",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 6.5
       },
       {
         "description": "Free-Range Eggs 30",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 23.0
       },
       {
         "description": "Bananas 1.2kg",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 8.4
       },
       {
         "description": "Tomatoes 1kg",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 5.75
       },
       {
         "description": "Olive Oil 1L",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 34.9
       },
       {
         "description": "Chicken Breast 1kg",
-        "quantity": null,
+        "quantity": 1.0,
         "unit_price": null,
         "amount": 28.5
       }

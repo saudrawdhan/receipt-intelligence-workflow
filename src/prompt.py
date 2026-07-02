@@ -18,6 +18,10 @@ Rules:
 - If the image is NOT a receipt or invoice, set is_receipt to false, set image_type
   to a short label of what it actually is, and leave the financial fields null.
 - Extract every visible line item with its description and amount.
+- quantity is the number of units for a line item. Use the printed count when shown
+  (e.g. "x2" or "2 @"). If a line item has no printed count, set quantity to 1, since
+  a single unit is implied. For items priced by weight or volume (e.g. "1.2kg"), keep
+  the measure in the description and use quantity 1 unless a separate count is shown.
 - Monetary fields are numbers only (no currency symbols). Put the currency in the
   separate `currency` field (ISO code if visible, otherwise the symbol). If no
   currency is printed, you may infer it from clear regional context such as the

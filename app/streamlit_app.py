@@ -87,8 +87,12 @@ def show_result(result):
         st.write(f"**Image type:** {e.image_type}  |  **Merchant:** {e.merchant_name or '-'}")
         st.write(f"**Finding:** {e.main_finding}")
         if e.line_items:
+            def _cell(v):  # uniform strings; blank-ish "-" for missing values
+                if v is None:
+                    return "-"
+                return f"{int(v)}" if float(v).is_integer() else f"{v}"
             st.dataframe(
-                [{"item": it.description, "qty": it.quantity, "amount": it.amount}
+                [{"item": it.description, "qty": _cell(it.quantity), "amount": _cell(it.amount)}
                  for it in e.line_items],
                 width="stretch", hide_index=True,
             )

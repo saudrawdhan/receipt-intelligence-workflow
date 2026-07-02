@@ -34,12 +34,12 @@ def _mock_green_market() -> ReceiptExtraction:
         currency="SAR",
         line_items=[
             LineItem(description="Fresh Milk 2L", quantity=2, amount=15.0),
-            LineItem(description="Whole Wheat Bread", amount=6.5),
-            LineItem(description="Free-Range Eggs 30", amount=23.0),
-            LineItem(description="Bananas 1.2kg", amount=8.4),
-            LineItem(description="Tomatoes 1kg", amount=5.75),
-            LineItem(description="Olive Oil 1L", amount=34.9),
-            LineItem(description="Chicken Breast 1kg", amount=28.5),
+            LineItem(description="Whole Wheat Bread", quantity=1, amount=6.5),
+            LineItem(description="Free-Range Eggs 30", quantity=1, amount=23.0),
+            LineItem(description="Bananas 1.2kg", quantity=1, amount=8.4),
+            LineItem(description="Tomatoes 1kg", quantity=1, amount=5.75),
+            LineItem(description="Olive Oil 1L", quantity=1, amount=34.9),
+            LineItem(description="Chicken Breast 1kg", quantity=1, amount=28.5),
         ],
         subtotal=122.05,
         tax=18.31,
@@ -90,13 +90,45 @@ def _mock_generic() -> ReceiptExtraction:
     )
 
 
+def _mock_from_cord(image_path: str):
+    """For a CORD sample, build an offline result from its dataset ground truth,
+    so each CORD receipt shows its own real totals instead of one shared fixture.
+    Returns None if the image is not a known CORD sample."""
+    from .dataset import load_manifest
+
+    manifest = load_manifest() or []
+    name = Path(image_path).name
+    row = next((r for r in manifest if r["file"] == name), None)
+    if row is None:
+        return None
+    count = int(row.get("item_count") or 0)
+    return ReceiptExtraction(
+        image_type="receipt",
+        is_receipt=True,
+        currency="IDR",
+        line_items=[LineItem(description=f"Item {i + 1}", quantity=1) for i in range(count)],
+        subtotal=row.get("subtotal"),
+        tax=row.get("tax"),
+        total=row.get("total"),
+        suggested_category="other",
+        main_finding=f"Indonesian receipt, total {row.get('total')} IDR "
+                     f"(offline preview built from the dataset ground truth).",
+        confidence=0.90,
+        uncertainty_notes="Offline mock: line-item details are not reconstructed, "
+                          "only the known totals and item count.",
+    )
+
+
 def _mock_extraction(image_path: str = "") -> ReceiptExtraction:
-    """A fixed example used by --mock, chosen by filename so different demo
-    images give different (but still fake, offline) results."""
+    """A fixed example used by --mock, chosen by the image so different demo
+    images give different (offline) results."""
     if "not_a_receipt" in image_path:
         return _mock_non_receipt()
     if "green_market" in image_path:
         return _mock_green_market()
+    cord = _mock_from_cord(image_path)
+    if cord is not None:
+        return cord
     return _mock_generic()
 
 
