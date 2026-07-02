@@ -6,7 +6,6 @@ Pillow>=10.0
 
 # Web app (app/streamlit_app.py)
 streamlit>=1.40
-pandas>=2.0
 
 # Real-data evaluation (src/dataset.py, src/evaluate.py)
 datasets>=2.0

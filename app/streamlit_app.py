@@ -12,7 +12,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import pandas as pd
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -225,13 +224,6 @@ def evaluation_tab():
          "with few-shot": f"{acc['tax']}%"},
     ]
     st.dataframe(comparison, width="stretch", hide_index=True)
-
-    if base_acc:
-        chart_df = pd.DataFrame({
-            "without few-shot": {"Total": base_acc["total"], "Item count": base_acc["item_count"]},
-            "with few-shot": {"Total": acc["total"], "Item count": acc["item_count"]},
-        })
-        st.bar_chart(chart_df)
 
     st.write("**Per-receipt detail** (model prediction vs. human ground truth):")
 
