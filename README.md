@@ -1,8 +1,17 @@
 # Receipt Intelligence Workflow
 
-A small but complete workflow built around a Vision-Language Model. It takes a receipt image, sends it to an AI model that can read images, gets back a structured JSON object, runs a decision step, and returns a final result. This is the same input-to-decision pattern that tools like n8n and Dify are built on.
+An AI workflow that reads a receipt image with a Vision-Language Model, turns it into structured JSON, and runs that JSON through a decision engine to reach a final result. This is the same input-to-decision pattern that tools like n8n and Dify are built on, implemented end to end and backed by numbers, not just a single demo screenshot.
 
-This is Task 2 of my training. The goal was to understand how AI workflow platforms are structured and to be able to explain every part of it. I took it a step further than a single demo image: the workflow is measured on real receipts from a public dataset, where it reaches 100% total-amount accuracy (92.9% before I tuned the prompt).
+**Live app:** https://receipt-intelligence-workflow-cbml7urdjtntacety4jmhy.streamlit.app
+**Repository:** https://github.com/saudrawdhan/receipt-intelligence-workflow
+
+This is Task 2 of my training. The brief asked for a small working workflow; I went further and built it as something I could actually stand behind:
+
+- **Deployed and usable**, not just runnable on my machine. Anyone can open the link above and try it, live or in a no-key mock mode.
+- **Tested on real data**, not one cherry-picked receipt. It runs against 15 real receipts from the public CORD dataset, each with a human-written ground truth.
+- **Measured, not assumed.** I ran an A/B test between two prompts on the same model and the same images, and the numbers decided the winner: total-amount accuracy went from 92.9% to 100% after adding few-shot examples.
+- **A decision engine that actually decides.** The model only reads the receipt; a separate, currency-aware rule engine in plain Python verifies the numbers and produces `AUTO_APPROVE`, `NEEDS_REVIEW`, or `REJECT`.
+- **Resilient by design.** Automatic retry on rate limits, a mock mode that needs no API key, and an offline evaluation mode that re-scores saved results with zero API calls.
 
 ## What it does
 
@@ -175,7 +184,7 @@ notebook/    demo_walkthrough.ipynb
 
 ## What I asked AI to help with
 
-I used an AI coding assistant to move faster: researching the free VLM options, setting up the module structure, writing boilerplate (the SDK call, the Streamlit layout, the SVG diagram), and drafting this README. I treated it like a fast junior developer that writes code while I direct and review it.
+I used an AI coding assistant to move faster: researching the free VLM options, setting up the module structure, writing boilerplate code (the SDK call, the Streamlit layout, the SVG diagram), and drafting this README. It wrote code on my instructions; I set the direction, reviewed every change, and made the calls on what to keep, change, or reject.
 
 ## What I decided and improved myself
 
@@ -185,9 +194,9 @@ I owned the direction and every decision, and I made sure I understood each part
 - Choices: I picked receipts as the use case, and required a model that is free and will not break later, which is why we use Gemini 2.5 (not the deprecated 2.0) and why I had the real free-tier limit (about 20 requests per day) verified instead of trusted from a blog.
 - Prompt: the few-shot idea was mine, and I insisted it be A/B tested against the plain prompt rather than assumed. That proved a real 92.9% to 100% gain.
 - Decision logic: I noticed that every real receipt came back as `NEEDS_REVIEW`, which looked weak. That led to redesigning the decision step to be currency-aware and to verify totals two ways, so it now gives meaningful, varied outcomes.
-- A bug I caught: I saw that the evaluation table marked a row correct while showing a different ground-truth value (and a confusing empty value). That surfaced a real scoring/display bug, which we fixed.
-- Presentation: I asked for a detailed workflow diagram that reflects the real system, and for the base vs few-shot comparison to be shown openly.
-- Quality: I required clean, professional code and a full review pass before shipping.
+- Bugs I caught by testing, not by reading code: the evaluation table once marked a row correct while showing a different ground-truth value, which pointed to a real scoring/display bug that we fixed. After deploying, I tested every sample in the live app myself and found that mock mode always returned the same fixture regardless of which image was selected, and that the workflow diagram silently failed to render on the hosted version even though it worked locally. Both were fixed and I re-tested the deployed app before calling it done.
+- I rejected the first workflow diagram because it was too generic and did not represent the real system, and asked for one that shows the actual stages, the model, and the decision outcomes. I also asked for the few-shot vs base-prompt comparison to be shown openly in the app and the README, not just the better number.
+- I set the bar for what "done" means here: clean code, no leftover test artifacts or dead files, a full review pass, and everything verified working end to end, including the deployed version, before it went into this README.
 
 ## What I learned
 
