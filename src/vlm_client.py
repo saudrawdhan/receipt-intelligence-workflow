@@ -21,8 +21,8 @@ _MAX_ATTEMPTS = 6
 _MAX_BACKOFF = 30
 
 
-def _mock_extraction() -> ReceiptExtraction:
-    """A fixed example used by --mock so downstream logic is testable offline."""
+def _mock_receipt() -> ReceiptExtraction:
+    """Canned result for a normal receipt image."""
     return ReceiptExtraction(
         image_type="receipt",
         is_receipt=True,
@@ -47,10 +47,29 @@ def _mock_extraction() -> ReceiptExtraction:
     )
 
 
+def _mock_non_receipt() -> ReceiptExtraction:
+    """Canned result for an image that is not a receipt (the reject branch)."""
+    return ReceiptExtraction(
+        image_type="drawing",
+        is_receipt=False,
+        main_finding="The image is a simple drawing of a house, not a receipt.",
+        confidence=0.98,
+        uncertainty_notes=None,
+    )
+
+
+def _mock_extraction(image_path: str = "") -> ReceiptExtraction:
+    """A fixed example used by --mock, chosen by filename so different demo
+    images give different (but still fake, offline) results."""
+    if "not_a_receipt" in image_path:
+        return _mock_non_receipt()
+    return _mock_receipt()
+
+
 def analyze_image(image_path: str, mock: bool = False) -> ReceiptExtraction:
     """Run stage 2. Returns a validated ReceiptExtraction."""
     if mock:
-        return _mock_extraction()
+        return _mock_extraction(image_path)
 
     path = Path(image_path)
     if not path.exists():

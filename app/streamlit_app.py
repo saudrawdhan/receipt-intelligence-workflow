@@ -5,6 +5,7 @@ Run with:  streamlit run app/streamlit_app.py
 It shows the five workflow stages visually for one receipt, and a second tab with
 the accuracy the workflow scored on the real CORD dataset.
 """
+import base64
 import json
 import os
 import sys
@@ -254,7 +255,11 @@ st.write("Image → Vision-Language Model → Structured Output → Decision →
 
 if WORKFLOW_SVG.exists():
     with st.expander("Full workflow diagram", expanded=False):
-        st.html(WORKFLOW_SVG.read_text(encoding="utf-8"))
+        svg_b64 = base64.b64encode(WORKFLOW_SVG.read_bytes()).decode("ascii")
+        st.markdown(
+            f'<img src="data:image/svg+xml;base64,{svg_b64}" style="width:100%;height:auto;" />',
+            unsafe_allow_html=True,
+        )
 
 tab1, tab2 = st.tabs(["Analyze a receipt", "Evaluation results"])
 with tab1:
