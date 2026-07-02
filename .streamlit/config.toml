@@ -1,0 +1,3 @@
+# Hide the "Deploy" button and dev toolbar for a clean demo.
+[client]
+toolbarMode = "minimal"

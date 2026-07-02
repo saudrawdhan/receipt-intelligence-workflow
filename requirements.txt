@@ -1,0 +1,12 @@
+# Core workflow (image -> Gemini VLM -> structured output -> decision)
+google-genai>=2.10.0
+pydantic>=2.0
+python-dotenv>=1.0
+Pillow>=10.0
+
+# Web app (app/streamlit_app.py)
+streamlit>=1.40
+pandas>=2.0
+
+# Real-data evaluation (src/dataset.py, src/evaluate.py)
+datasets>=2.0

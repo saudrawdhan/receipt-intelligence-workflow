@@ -1,0 +1,14 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Runtime scratch outputs are ignored, except the committed evaluation reports
+# that the deployed app and the notebook read.
+outputs/*.json
+!outputs/evaluation_report.json
+!outputs/evaluation_report_base.json
+
+# internal Claude memory copy - never share in the repo
+CLAUDE_MEMORY/
